@@ -10,6 +10,11 @@ WIDTH = 20
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
+RED = (255, 0, 0)
+YELLOW = (255, 255, 0)
+BLUE = (0, 0, 255)
+GRAY = (128, 128, 128)
+ORANGE = (255, 165, 0)
 
 FOOD = 0
 UNDEF = int(1E3)
@@ -209,10 +214,10 @@ def run():
                 pygame.quit()
                 sys.exit()
         screen.fill(BLACK)
-        pygame.draw.rect(screen, GREEN, (int(food / WIDTH) * 24, int(food % WIDTH) * 24, 24, 24))
+        pygame.draw.rect(screen, RED, (int(food / WIDTH) * 24, int(food % WIDTH) * 24, 24, 24))
         for i in range(HEIGHT * WIDTH):
             if board[i] == SNAKE:
-                pygame.draw.rect(screen, WHITE, (int(i / WIDTH) * 24, int(i % WIDTH) * 24, 24, 24))
+                pygame.draw.rect(screen, YELLOW, (int(i / WIDTH) * 24, int(i % WIDTH) * 24, 24, 24))
         init_board(snake, snake_size, board)
 
         # main logic:
@@ -242,11 +247,11 @@ def run():
 
 def start_screen():
     start = True
-    screen.fill(BLACK)
+    screen.fill(BLUE)
     pygame.font.init()
-    menu = pygame.font.Font("./techkr/test.TTF", 30).render('Snake', True, WHITE)
-    ai = pygame.font.Font("./techkr/test.TTF", 15).render('ხელოვნური ინტელექტი', True, WHITE)
-    play = pygame.font.Font("./techkr/test.TTF", 25).render('თამაში', True, WHITE)
+    menu = pygame.font.Font("./techkr/test.TTF", 30).render('Snake', True, GREEN)
+    ai = pygame.font.Font("./techkr/test.TTF", 15).render('ხელოვნური ინტელექტი', True, ORANGE )
+    play = pygame.font.Font("./techkr/test.TTF", 25).render('თამაში', True, YELLOW)
     screen.blit(menu, (207, 10))
     screen.blit(ai, (157, 50))
     play_button = pygame.draw.rect(screen, BLACK, (150, 250, 150, 100))
