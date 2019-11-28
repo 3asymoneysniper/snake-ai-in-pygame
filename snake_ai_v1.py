@@ -244,13 +244,13 @@ def start_screen():
     start = True
     screen.fill(BLACK)
     pygame.font.init()
-    menu = pygame.font.Font("./techkr/test.TTF", 15).render('Snake', True, WHITE)
+    menu = pygame.font.Font("./techkr/test.TTF", 30).render('Snake', True, WHITE)
     ai = pygame.font.Font("./techkr/test.TTF", 15).render('ხელოვნური ინტელექტი', True, WHITE)
-    play = pygame.font.Font("./techkr/test.TTF", 20).render('თამაში', True, WHITE)
-    screen.blit(menu, (10, 10))
-    screen.blit(ai, (50, 50))
-    play_button = pygame.draw.rect(screen, WHITE, (150, 250, 100, 150))
-    screen.blit(play, (207, 270))
+    play = pygame.font.Font("./techkr/test.TTF", 25).render('თამაში', True, WHITE)
+    screen.blit(menu, (207, 10))
+    screen.blit(ai, (157, 50))
+    play_button = pygame.draw.rect(screen, BLACK, (150, 250, 150, 100))
+    screen.blit(play, (200, 270))
 
     while start:
         for event in pygame.event.get():
