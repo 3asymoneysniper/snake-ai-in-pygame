@@ -254,7 +254,7 @@ def start_screen():
     play = pygame.font.Font("./techkr/test.TTF", 25).render('თამაში', True, YELLOW)
     screen.blit(menu, (207, 10))
     screen.blit(ai, (157, 50))
-    play_button = pygame.draw.rect(screen, BLACK, (150, 250, 150, 100))
+    play_button = pygame.draw.rect(screen, BLUE, (192, 260, 100, 50))
     screen.blit(play, (200, 270))
 
     while start:
