@@ -27,7 +27,8 @@ DOWN = WIDTH
 
 DIRC_LIST = [LEFT, UP, RIGHT, DOWN]
 
-
+#ფუნქცია ყველაფერს არესეთებს.
+#გველი უბრუნდება საწყის "სიგრძეს" და თამაში იწყება თავიდან
 def reset_all():
     global snake, board, snake_size, _snake, _board, _snake_size, food, score
     board = [0] * HEIGHT * WIDTH  # use one dimensional list to represent 2 dimensional board
@@ -43,6 +44,7 @@ def reset_all():
     food = 7 * WIDTH + 8
 
 
+#აკეთებს "დაფას"
 def init_board(__snake, __size, __board):
     for i in range(HEIGHT * WIDTH):
         if i == food:
@@ -52,8 +54,8 @@ def init_board(__snake, __size, __board):
         else:
             __board[i] = SNAKE
 
-
-def can_move(pos, dirc): # amowmebs sheudzlia tu ara gamodzraveba nebismieri mimartulebit.
+# ამოწმებს შეუძლია თუ არა გველს მოძრაობა ნებისმიერი მიმართულებით
+def can_move(pos, dirc):
     if dirc == UP and pos / WIDTH > 0:
         return True
     elif dirc == LEFT and pos % WIDTH > 0:
@@ -64,7 +66,7 @@ def can_move(pos, dirc): # amowmebs sheudzlia tu ara gamodzraveba nebismieri mim
         return True
     return False
 
-
+#საკვების ძებნის ფუნქცია (თუ იპოვა აბრუნდებს Found-ს და აგრძელებს ფუნქციონირებას)
 def find_food_path_bfs(__food, __snake, __board):
     found = False
     q = [__food]  # not using Queue() because it is slower
@@ -86,7 +88,7 @@ def find_food_path_bfs(__food, __snake, __board):
 
     return found
 
-
+#პოულობს საით უნდა გააგრძელოს მიმართულება
 def last_op():
     global snake_size, board, snake, food
     init_board(snake, snake_size, board)
@@ -99,12 +101,12 @@ def last_op():
             mv = dirc
     return mv
 
-
+#ტანის გაზრდის ფუნქცია
 def mv_body(__snake, __snake_size):
     for i in range(__snake_size, 0, -1):
         __snake[i] = __snake[i - 1]
 
-
+#საკვების გენერირების ფუნქცია
 def gen_food():
     global food, snake_size
     a = False
@@ -114,7 +116,7 @@ def gen_food():
         food = h * WIDTH + w
         a = not (food in snake[:snake_size])
 
-
+#თუ თავი დაემთხვევა საკვებს, უნდა გაიზარდოს ტანის სიგრძე ქულას ზრდის +1-ით
 def r_move(__mv):
     global snake, board, snake_size, score
     mv_body(snake, snake_size)
@@ -130,7 +132,7 @@ def r_move(__mv):
         board[snake[0]] = SNAKE
         board[snake[snake_size]] = UNDEF
 
-
+#როცა გველის თავი არ ემთხვევა საკვებს, იყენებს საკვების პოვნის ფუნქციას
 def v_move():
     global snake, board, snake_size, _snake, _board, _snake_size, food
     _snake_size = snake_size
@@ -153,7 +155,7 @@ def v_move():
             _board[_snake[0]] = SNAKE
             _board[_snake[_snake_size]] = UNDEF
 
-
+#თუ გველს აქვს კუდი და ვერ პოულობს, მაშინ უნდა გაყვეს კუდს
 def final_path():
     global snake, board
     v_move()
@@ -161,7 +163,7 @@ def final_path():
         return min_mv(snake, board)
     return follow_tail()
 
-
+#კუდის არსებობა/არ არსებობის ფუნქცია
 def tail_available():
     global _snake_size, _snake, _board, food
     _board[_snake[_snake_size - 1]] = FOOD
@@ -172,7 +174,7 @@ def tail_available():
             available = False
     return available
 
-
+#ეძებს მინიმალურ მანძილს საკვებამდე
 def min_mv(__snake, __board):
     mini = SNAKE
     mv = None
@@ -182,7 +184,7 @@ def min_mv(__snake, __board):
             mv = dirc
     return mv
 
-
+#კუდის გაყოლის ფუნქცია
 def follow_tail():
     global _board, _snake, food, _snake_size
     _snake_size = snake_size
@@ -205,7 +207,7 @@ def max_mv(__snake, __board):
             mv = dirc
     return mv
 
-
+#თამაშის გაშვების ფუნქცია
 def run():
     reset_all()
     while True:
@@ -220,18 +222,18 @@ def run():
                 pygame.draw.rect(screen, YELLOW, (int(i / WIDTH) * 24, int(i % WIDTH) * 24, 24, 24))
         init_board(snake, snake_size, board)
 
-        # main logic:
-        # find the distance from food to the 0 of the snake  / poulobs mandzils sakvebidan snake-s pirvel kubamde
+        # მთავარი ლოგიკა:
+        #პოულობს მანძილს საკვებიდან გველის პირველ კუბამდე
         #
-        # if succeed: / tu gamovida:
-        #     check if the snake can reach its tail / sheamowme tu sheudzlia snakes miagwios tavis kuds
-        #     if succeed: go to the food through the minimum move / tu sheudzlia, miagwios sakvebamde minimaluri gavlit
-        #     if not: follow the movement of the tail / tu ara, gayves kudis modzraobas
-        # if not: / tu ver ipova mandzili sakvebamde
-        #     follow the movement of the tail  / ubralod isev gayves kudis modzraobas
+        # თუ გამოვიდა:
+        # უნდა შეამოწმოს შეუძლია თუ არა მიწვდეს თავის კუდს
+        # თუ შეუძლია, მივიდეს საკვებამდე მინიმალური მანძილი
+        # თუ არ შეუძლია: უნდა გაყვეს კუდის მოძრაობას    if not: follow the movement of the tail / tu ara, gayves kudis modzraobas
+        # მანამდე გაყვეს თავის კუდს
+        #     სანამ ვერ იპოვის საკვებს
         #
-        # if the snake cannot reach either the food or its tail: / tu verc sakvebs agwevs da verc kuds, erti blokit randomze gaiwios da axlidan sheamowmos.
-        #     move one block randomly and check again
+        # თუ ვერ პოულობს ვერც კუდს და ვერც საკვებს
+        #     შემთხვევითი პრინციპით იაროს კუბიკებზე
 
         best_move = final_path() if find_food_path_bfs(food, snake, board) else follow_tail()
         if best_move is None:
@@ -244,7 +246,7 @@ def run():
         pygame.display.update()
         pygame.time.Clock().tick(20)
 
-
+#თამაშის ჩართვის ეკრანი
 def start_screen(): #starting screen
     start = True
     screen.fill(BLUE)
@@ -268,7 +270,7 @@ def start_screen(): #starting screen
     pygame.quit()
     sys.exit()
 
-
+#თამაშის შემდეგი ეკრანი
 def gg_screen(): #final screen
     gg = True
     screen.fill(BLACK)
