@@ -53,7 +53,7 @@ def init_board(__snake, __size, __board):
             __board[i] = SNAKE
 
 
-def can_move(pos, dirc):
+def can_move(pos, dirc): # amowmebs sheudzlia tu ara gamodzraveba nebismieri mimartulebit.
     if dirc == UP and pos / WIDTH > 0:
         return True
     elif dirc == LEFT and pos % WIDTH > 0:
@@ -221,16 +221,16 @@ def run():
         init_board(snake, snake_size, board)
 
         # main logic:
-        # find the distance from food to the 0 of the snake
+        # find the distance from food to the 0 of the snake  / poulobs mandzils sakvebidan snake-s pirvel kubamde
         #
-        # if succeed:
-        #     check if the snake can reach its tail
-        #     if succeed: go to the food through the minimum move
-        #     if not: follow the movement of the tail
-        # if not:
-        #     follow the movement of the tail
+        # if succeed: / tu gamovida:
+        #     check if the snake can reach its tail / sheamowme tu sheudzlia snakes miagwios tavis kuds
+        #     if succeed: go to the food through the minimum move / tu sheudzlia, miagwios sakvebamde minimaluri gavlit
+        #     if not: follow the movement of the tail / tu ara, gayves kudis modzraobas
+        # if not: / tu ver ipova mandzili sakvebamde
+        #     follow the movement of the tail  / ubralod isev gayves kudis modzraobas
         #
-        # if the snake cannot reach either the food or its tail:
+        # if the snake cannot reach either the food or its tail: / tu verc sakvebs agwevs da verc kuds, erti blokit randomze gaiwios da axlidan sheamowmos.
         #     move one block randomly and check again
 
         best_move = final_path() if find_food_path_bfs(food, snake, board) else follow_tail()
@@ -245,7 +245,7 @@ def run():
         pygame.time.Clock().tick(20)
 
 
-def start_screen():
+def start_screen(): #starting screen
     start = True
     screen.fill(BLUE)
     pygame.font.init()
@@ -269,7 +269,7 @@ def start_screen():
     sys.exit()
 
 
-def gg_screen():
+def gg_screen(): #final screen
     gg = True
     screen.fill(BLACK)
     pygame.font.init()
